@@ -205,14 +205,6 @@ if [ "$1" == "prestart" ]; then
     lndPort=9735
   fi
 
-  # enforce PublicIP if (if not running Tor)
-  if [ "${runBehindTor}" != "on" ]; then
-    setting ${lndConfFile} ${insertLine} "externalip" "${publicIP}:${lndPort}"
-  else
-    # when running Tor a public ip can make startup problems - so remove
-    sed -i '/^externalip=*/d' ${lndConfFile}
-  fi
-
   # enforce LND keysend (if set in raspiblitz.conf)
   if [ "${lndKeysend}" == "on" ]; then
     setting ${lndConfFile} ${insertLine} "accept-keysend" "true"
